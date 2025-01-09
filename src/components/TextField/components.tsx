@@ -6,7 +6,7 @@ interface ITextfieldProps{
     required:boolean,
     type:string,
     disabled:boolean,
-    onChange:Function,
+    onChange?:Function,
     sound:HTMLMediaElement["src"]
 }
 

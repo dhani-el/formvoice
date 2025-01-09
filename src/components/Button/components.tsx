@@ -2,10 +2,12 @@
 import { useAudioFormData } from "../../hooks"
 import { ErequestStates } from "../Form/components";
 
-export default function Button({value="Submit"}){
+export function Button({value="Submit"}){
     let {requestState,OnSubmit} = {...useAudioFormData()};
 
     function handleButtonClick(Event:React.MouseEvent<HTMLButtonElement, MouseEvent>){
+        console.log("button click event logged");
+        
         if(OnSubmit !== undefined){
             OnSubmit(Event)
         }
