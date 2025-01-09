@@ -18,10 +18,16 @@ interface IFormData{
 
 }
 
+export enum ErequestStates{
+    loading ="loading",
+    error="error",
+    success="success",
+    noactivity="noactivity"
+}
 
-export default function Form({children,id,url}:FormInterface){
+export function Form({children,id,url}:FormInterface){
     const [formData,setFormData] = useState<IFormData>()
-    const [requestState,setRequestState] = useState({loading:false,isError:false,isSuccess:false});
+    const [requestState,setRequestState] = useState<ErequestStates>(ErequestStates.noactivity);
     const [data,setData] = useState<JSON|null>(null);
     const [error,setError] = useState<JSON|null>(null);
     const audio = new Audio();
@@ -35,17 +41,17 @@ export default function Form({children,id,url}:FormInterface){
     }
     function setErrorRequestState(){
         setRequestState(()=>{
-            return {loading:false,isError:true,isSuccess:false}
+            return ErequestStates.error
         })
     }
     function setLoadingRequestState(){
         setRequestState(()=>{
-            return {loading:true,isError:false,isSuccess:false}
+            return ErequestStates.loading
         })
     }
     function setSuccessRequestState(){
         setRequestState(()=>{
-            return {loading:false,isError:false,isSuccess:true}
+            return ErequestStates.success
         })
     }
     function setErrorDetails(errorObj:JSON){
@@ -135,7 +141,7 @@ export default function Form({children,id,url}:FormInterface){
                 <div id={`blur${id}`} className="w-full h-full absolute top-0 left-0 bg-slate-700 opacity-50 z-0 hidden">
 
                 </div>
-                <formContext.Provider value={{id,data,error,isLoading:requestState.loading,isSuccess:requestState.isSuccess,isError:requestState.isError,handleChange:OnChange,OnSubmit,registerTextField}}>
+                <formContext.Provider value={{id,data,error,requestState:requestState,handleChange:OnChange,OnSubmit,registerTextField}}>
                     {children}
                 </formContext.Provider>
             </form>
